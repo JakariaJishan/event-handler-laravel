@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\storeEventRequest;
 use App\Interfaces\EventRepositoryInterface;
 use Illuminate\Http\Request;
 
@@ -26,15 +27,9 @@ class EventController extends Controller
         return view('events.create');
     }
 
-    public function store(Request $request)
+    public function store(StoreEventRequest $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'date' => 'required|date',
-            'location' => 'required|string|max:255',
-        ]);
-
-        $this->eventRepository->createEvent($request->all());
+        $this->eventRepository->createEvent($request->validated());
 
         return redirect()->route('events.index')->with('success', 'Event created successfully.');
     }

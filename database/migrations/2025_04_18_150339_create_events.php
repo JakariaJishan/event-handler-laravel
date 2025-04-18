@@ -15,11 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('description')->nullable();
-            $table->dateTime('start_time');
-            $table->dateTime('end_time');
+            $table->dateTime('start_time')->nullable();
+            $table->dateTime('end_time')->nullable();
             $table->string('location');
             $table->string('google_meet_link')->nullable();
-            $table->enum('visibility', ['public', 'private']);
+            $table->enum('visibility', ['public', 'private'])->default('public');
             $table->enum('reminder_time', ['15min', '30min', '1hr', '2hr', '1day'])->default('15min');
             $table->enum('repeat_time', ['all day', 'sat', 'sun', 'mon', 'tue', 'wed', 'thu', 'fri'])->default('all day');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');

@@ -4,6 +4,15 @@
     <form action="{{route('events.store')}}" method="POST">
         @csrf
         <div class="container">
+            @if ($errors->any())
+                <div class="text-red-500">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
             <h1>Create Event</h1>
             <div>
                 <label for="name">Event Name:</label>
@@ -25,6 +34,9 @@
                 <label for="location">Location:</label>
                 <input type="text" id="location" name="location" required>
             </div>
+                <div>
+                    <input type="hidden" id="user_id" name="user_id" value="1">
+                </div>
             <button type="submit">Create Event</button>
         </div>
 @endsection
