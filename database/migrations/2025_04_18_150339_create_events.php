@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('description')->nullable();
-            $table->dateTime('start_time')->nullable();
-            $table->dateTime('end_time')->nullable();
+            $table->dateTime('start_time');
+            $table->dateTime('end_time');
             $table->string('location');
             $table->string('google_meet_link')->nullable();
             $table->enum('visibility', ['public', 'private'])->default('public');

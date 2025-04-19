@@ -11,14 +11,10 @@ class Event extends Model
     protected $fillable = [
         'name',
         'description',
-        'date',
+        'start_time',
+        'end_time',
         'location',
         'user_id',
-    ];
-
-    protected $casts = [
-        'start_time'=>'datetime',
-        'end_time'=>'datetime'
     ];
 
     public function user()

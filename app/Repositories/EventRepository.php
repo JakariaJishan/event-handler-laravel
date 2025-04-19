@@ -19,6 +19,8 @@ class EventRepository implements EventRepositoryInterface
 
     public function createEvent(array $data)
     {
+//        $data['start_time'] = Carbon::createFromFormat('Y-m-d\TH:i', $data['start_time'])->format('Y-m-d H:i:s');
+//        $data['end_time'] = Carbon::createFromFormat('Y-m-d\TH:i', $data['end_time'])->format('Y-m-d H:i:s');
         return Event::create($data);
     }
 

@@ -30,7 +30,6 @@ class EventController extends Controller
     public function store(StoreEventRequest $request)
     {
         $this->eventRepository->createEvent($request->validated());
-
         return redirect()->route('events.index')->with('success', 'Event created successfully.');
     }
 }
