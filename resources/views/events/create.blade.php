@@ -1,7 +1,10 @@
-@extends('layouts.app')
-
-@section('content')
-    <div class="max-w-2xl mx-auto mt-12 p-8 bg-white shadow-md rounded-lg">
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('Create Event') }}
+        </h2>
+    </x-slot>
+    <div class="max-w-7xl mx-auto mt-12 p-8 bg-white shadow-md rounded-lg">
         <h2 class="text-2xl font-semibold text-gray-700 mb-6">Create New Event</h2>
 
         <form action="{{ route('events.store') }}" method="POST" novalidate>
@@ -98,22 +101,22 @@
 
             {{-- Optional Meet Link --}}
             <div class="mt-6">
-                <label for="meet_link" class="block text-gray-600 mb-1">Video Meet Link</label>
+                <label for="google_meet_link" class="block text-gray-600 mb-1">Video Meet Link</label>
                 <input
                     type="url"
-                    name="meet_link"
-                    id="meet_link"
-                    value="{{ old('meet_link') }}"
+                    name="google_meet_link"
+                    id="google_meet_link"
+                    value="{{ old('google_meet_link') }}"
                     class="w-full border text-gray-600 border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500"
                     placeholder="https://"
                 >
-                @error('meet_link')
+                @error('google_meet_link')
                 <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
                 @enderror
             </div>
 
             {{-- Hidden User ID --}}
-            <input type="hidden" name="user_id" value="1">
+            <input type="hidden" name="user_id" value="{{auth()->user()->id}}">
 
             {{-- Submit Button --}}
             <div class="mt-8 flex justify-between items-center">
@@ -132,4 +135,4 @@
             </div>
         </form>
     </div>
-@endsection
+</x-app-layout>

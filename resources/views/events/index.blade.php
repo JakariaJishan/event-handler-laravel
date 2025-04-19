@@ -1,10 +1,18 @@
-@extends('layouts.app')
-
-@section('content')
-    <div class="max-w-4xl mx-auto py-8 px-4">
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('Events') }}
+        </h2>
+    </x-slot>
+    <div class="max-w-7xl mx-auto py-8 px-4">
+        @if(session('success'))
+            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
+                <span class="block sm:inline">{{ session('success') }}</span>
+            </div>
+        @endif
         {{-- Header --}}
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
-            <h1 class="text-3xl font-bold text-gray-200 mb-4 sm:mb-0">Events</h1>
+            <h1 class="text-3xl font-bold text-gray-800 mb-4 sm:mb-0">Events</h1>
             <div class="flex space-x-2">
                 <input
                     id="search"
@@ -31,9 +39,9 @@
                 >
                     {{-- Card Header --}}
                     <div class="flex justify-between items-center p-4 cursor-pointer header">
-                        <h2 class="text-xl font-semibold text-gray-800">{{ $event->name }}</h2>
+                        <h2 class="text-xl font-semibold ">{{ $event->name }}</h2>
                     </div>
-                    <div class="px-4 pb-4 text-gray-700 space-y-2 details">
+                    <div class="px-4 pb-4  space-y-2 details">
                         <p>{{ $event->description }}</p>
                         <p>
                             <span class="font-medium">Date:</span>
@@ -45,6 +53,24 @@
                             <span class="font-medium">Location:</span>
                             {{ $event->location }}
                         </p>
+                        <div class="flex space-x-2 mt-4">
+                            <a
+                                href="{{ route('events.edit', $event->id) }}"
+                                class="border font-semibold py-1 px-2 rounded transition"
+                            >
+                                Edit
+                            </a>
+                            <form action="{{ route('events.destroy', $event->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this event?');">
+                                @csrf
+                                @method('DELETE')
+                                <button
+                                    type="submit"
+                                    class="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-lg transition"
+                                >
+                                    Delete
+                                </button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             @endforeach
@@ -56,59 +82,4 @@
             @endif
         </div>
     </div>
-
-    {{-- Vanilla JS for interactivity --}}
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Toggle details on header click
-            document.querySelectorAll('.event-card .header').forEach(header => {
-                header.addEventListener('click', () => {
-                    const card    = header.parentElement;
-                    const details = card.querySelector('.details');
-                    const icon    = header.querySelector('svg');
-
-                    if (details.classList.contains('hidden')) {
-                        details.classList.remove('hidden');
-                        icon.classList.add('rotate-180');
-                    } else {
-                        details.classList.add('hidden');
-                        icon.classList.remove('rotate-180');
-                    }
-                });
-            });
-
-            // Search/filter functionality
-            const searchInput = document.getElementById('search');
-            const cards       = document.querySelectorAll('.event-card');
-            const list        = document.getElementById('eventsList');
-
-            searchInput.addEventListener('input', function() {
-                const q = this.value.toLowerCase();
-                let anyVisible = false;
-
-                cards.forEach(card => {
-                    const name = card.dataset.name;
-                    const desc = card.dataset.description;
-                    const match = name.includes(q) || desc.includes(q);
-
-                    card.classList.toggle('hidden', !match);
-                    if (match) anyVisible = true;
-                });
-
-                // Handle “No events found” message
-                let noMsg = document.getElementById('noEventsMessage');
-                if (!anyVisible) {
-                    if (!noMsg) {
-                        noMsg = document.createElement('div');
-                        noMsg.id = 'noEventsMessage';
-                        noMsg.className = 'col-span-full text-center text-gray-500 py-10';
-                        noMsg.textContent = 'No events found.';
-                        list.append(noMsg);
-                    }
-                } else if (noMsg) {
-                    noMsg.remove();
-                }
-            });
-        });
-    </script>
-@endsection
+</x-app-layout>

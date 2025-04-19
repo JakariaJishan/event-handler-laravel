@@ -32,4 +32,22 @@ class EventController extends Controller
         $this->eventRepository->createEvent($request->validated());
         return redirect()->route('events.index')->with('success', 'Event created successfully.');
     }
+
+    public function edit($id)
+    {
+        $event = $this->eventRepository->getEventById($id);
+        return view('events.edit', compact('event'));
+    }
+
+    public function update(StoreEventRequest $request, $id)
+    {
+        $this->eventRepository->updateEvent($id, $request->validated());
+        return redirect()->route('events.index')->with('success', 'Event updated successfully.');
+    }
+
+    public function destroy($id)
+    {
+        $this->eventRepository->deleteEvent($id);
+        return redirect()->route('events.index')->with('success', 'Event deleted successfully.');
+    }
 }
