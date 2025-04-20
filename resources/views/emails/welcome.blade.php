@@ -4,7 +4,7 @@
     <title>Welcome</title>
 </head>
 <body>
-<h1>Welcome, {{ $event->message }}!</h1>
-<p>Thank you for joining us.</p>
+<h1>Welcome, {{ $event->name }}!</h1>
+<p>{{$content}}</p>
 </body>
 </html>

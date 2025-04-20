@@ -43,8 +43,8 @@ class RegisteredUserController extends Controller
 
         event(new Registered($user));
 
-        Auth::login($user);
-
+// Add a toast message indicating a verification email has been sent
+        $request->session()->flash('status', 'A verification email has been sent to your email address.');
         return redirect(route('dashboard', absolute: false));
     }
 }

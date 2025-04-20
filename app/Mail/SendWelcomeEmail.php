@@ -16,7 +16,7 @@ class SendWelcomeEmail extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct(public $event)
+    public function __construct(public $user)
     {
         //
     }
@@ -40,7 +40,7 @@ class SendWelcomeEmail extends Mailable
             view: 'emails.welcome',
             with: [
                 'content'=>'Welcome to our application! We are glad to have you here.',
-                'event' => $this->event,
+                'event' => $this->user,
             ]
         );
     }

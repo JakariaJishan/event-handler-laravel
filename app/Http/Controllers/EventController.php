@@ -39,7 +39,6 @@ class EventController extends Controller
             'user_id' => auth()->id(),
         ];
         auth()->user()->notify(new NewEventNotification($notificationData));
-        Mail::to(auth()->user()->email)->send(new SendWelcomeEmail($event));
         return redirect()->route('events.index')->with('success', 'Event created successfully.');
     }
 
