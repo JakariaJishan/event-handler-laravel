@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\storeEventRequest;
 use App\Interfaces\EventRepositoryInterface;
+use App\Notifications\NewEventNotification;
 use Illuminate\Http\Request;
 
 class EventController extends Controller
@@ -29,7 +30,13 @@ class EventController extends Controller
 
     public function store(StoreEventRequest $request)
     {
-        $this->eventRepository->createEvent($request->validated());
+        $event = $this->eventRepository->createEvent($request->validated());
+        $notificationData = [
+            'message' => 'A new event has been created by: ' . $event->name,
+            'event_id' => $event->id,
+            'user_id' => auth()->id(),
+        ];
+        auth()->user()->notify(new NewEventNotification($notificationData));
         return redirect()->route('events.index')->with('success', 'Event created successfully.');
     }
 

@@ -6,7 +6,7 @@
     </x-slot>
     <div class="max-w-7xl mx-auto py-8 px-4">
         @if(session('success'))
-            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
+            <div id="successMessage" class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
                 <span class="block sm:inline">{{ session('success') }}</span>
             </div>
         @endif
@@ -40,11 +40,12 @@
                     {{-- Card Header --}}
                     <div class="flex justify-between items-center p-4 cursor-pointer header">
                         <h2 class="text-xl font-semibold ">{{ $event->name }}</h2>
+                        <span class="text-sm text-gray-500">{{$event->created_at->diffForHumans()}}</span>
                     </div>
-                    <div class="px-4 pb-4  space-y-2 details">
+                    <div class="px-4 pb-4 text-gray-600  space-y-2 details">
                         <p>{{ $event->description }}</p>
-                        <p>
-                            <span class="font-medium">Date:</span>
+                        <p class="text-gray-500 text-sm">
+                            <span class="font-medium">Event Time:</span>
                             {{ \Carbon\Carbon::parse($event->start_time)->format('M j, Y g:i A') }}
                             –
                             {{ \Carbon\Carbon::parse($event->end_time)->format('M j, Y g:i A') }}
@@ -83,3 +84,11 @@
         </div>
     </div>
 </x-app-layout>
+<script>
+    const smsg = document.getElementById('successMessage');
+    if(smsg){
+        setTimeout(()=>{
+            smsg.style.display = 'none';
+        }, 3000);
+    }
+</script>
