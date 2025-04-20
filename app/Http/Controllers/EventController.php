@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\storeEventRequest;
 use App\Interfaces\EventRepositoryInterface;
+use App\Mail\SendWelcomeEmail;
 use App\Notifications\NewEventNotification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class EventController extends Controller
 {
@@ -37,6 +39,7 @@ class EventController extends Controller
             'user_id' => auth()->id(),
         ];
         auth()->user()->notify(new NewEventNotification($notificationData));
+        Mail::to(auth()->user()->email)->send(new SendWelcomeEmail($event));
         return redirect()->route('events.index')->with('success', 'Event created successfully.');
     }
 
