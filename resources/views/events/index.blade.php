@@ -6,7 +6,9 @@
     </x-slot>
     <div class="max-w-7xl mx-auto py-8 px-4">
         @if(session('success'))
-            <div id="successMessage" class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
+            <div id="successMessage"
+                 class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4"
+                 role="alert">
                 <span class="block sm:inline">{{ session('success') }}</span>
             </div>
         @endif
@@ -30,7 +32,7 @@
         </div>
 
         {{-- Events Grid --}}
-        <div id="eventsList" class="grid gap-6 md:grid-cols-2">
+        <div id="eventsList" class="grid gap-6 md:grid-cols-2 mb-6">
             @foreach($events as $event)
                 <div
                     class="bg-white shadow rounded-lg overflow-hidden event-card"
@@ -61,7 +63,8 @@
                             >
                                 Edit
                             </a>
-                            <form action="{{ route('events.destroy', $event->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this event?');">
+                            <form action="{{ route('events.destroy', $event->id) }}" method="POST"
+                                  onsubmit="return confirm('Are you sure you want to delete this event?');">
                                 @csrf
                                 @method('DELETE')
                                 <button
@@ -81,13 +84,16 @@
                     No events found.
                 </div>
             @endif
+
         </div>
+        <div>{{$events->links()}}</div>
+
     </div>
 </x-app-layout>
 <script>
     const smsg = document.getElementById('successMessage');
-    if(smsg){
-        setTimeout(()=>{
+    if (smsg) {
+        setTimeout(() => {
             smsg.style.display = 'none';
         }, 3000);
     }

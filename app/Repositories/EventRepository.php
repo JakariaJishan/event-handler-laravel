@@ -9,7 +9,7 @@ class EventRepository implements EventRepositoryInterface
 {
     public function getAllEvents()
     {
-        return Event::all();
+        return Event::paginate(5);
     }
 
     public function getEventById($id)
